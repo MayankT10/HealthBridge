@@ -37,6 +37,7 @@ import MedicineTracker from './pages/MedicineTracker';
 import SymptomChecker from './pages/SymptomChecker';
 import ClinicsNearby from './pages/ClinicsNearby';
 import Settings from './pages/Settings';
+import Footer from './components/Footer';
 
 const NAV_LINKS = [
   { label: 'Dashboard', to: '/dashboard' },
@@ -303,7 +304,7 @@ function Navbar() {
   );
 }
 
-export default function App() {
+function App() {
   return (
     <>
       <Navbar />
@@ -318,6 +319,9 @@ export default function App() {
         </Routes>
       </div>
       <ScrollToTopButton />
+      <Footer />
     </>
   );
 }
+
+export default App;

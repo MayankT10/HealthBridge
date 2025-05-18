@@ -1,114 +1,70 @@
-import React, { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
-
-  const navItems = [
-    { name: 'Dashboard', href: '/dashboard' },
-    { name: 'Medicine Tracker', href: '/medicine-tracker' },
-    { name: 'Symptom Checker', href: '/symptom-checker' },
-    { name: 'Clinics Nearby', href: '/clinics-nearby' },
-    { name: 'Settings', href: '/settings' },
-  ];
-
   return (
-    <nav style={styles.navbar}>
-      <div style={styles.logo}>HealthBridge</div>
-
-      <div style={styles.desktopMenu}>
-        {navItems.map(item => (
-          <Link
-            key={item.name}
-            to={item.href}
-            style={{
-              ...styles.link,
-              borderBottom: location.pathname === item.href ? '2px solid #fff' : 'none'
-            }}
-          >
-            {item.name}
-          </Link>
-        ))}
+    <nav className="navbar">
+      <div className="navbar-logo">
+        <span role="img" aria-label="logo" style={{ fontSize: 28, marginRight: 8 }}>🌙</span>
+        <span className="navbar-title">HealthBridge</span>
       </div>
-
-      <div style={styles.menuIcon} onClick={() => setMenuOpen(!menuOpen)}>
-        {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+      <div className="navbar-links">
+        <Link to="/" className={location.pathname === "/" ? "active" : ""}>Dashboard</Link>
+        <Link to="/medicine-tracker" className={location.pathname === "/medicine-tracker" ? "active" : ""}>Medicines</Link>
+        <Link to="/symptom-checker" className={location.pathname === "/symptom-checker" ? "active" : ""}>Symptoms</Link>
+        <Link to="/clinics-nearby" className={location.pathname === "/clinics-nearby" ? "active" : ""}>Clinics</Link>
+        <Link to="/settings" className={location.pathname === "/settings" ? "active" : ""}>Settings</Link>
       </div>
-
-      {menuOpen && (
-        <div style={styles.mobileMenu}>
-          {navItems.map(item => (
-            <Link
-              key={item.name}
-              to={item.href}
-              style={{ ...styles.link, display: 'block', padding: '0.75rem 0' }}
-              onClick={() => setMenuOpen(false)}
-            >
-              {item.name}
-            </Link>
-          ))}
-        </div>
-      )}
+      <style>{`
+        .navbar {
+          width: 100%;
+          background: linear-gradient(90deg, #18181a 70%, #232526 100%);
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 32px;
+          height: 64px;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          border-bottom: 1px solid #232526;
+        }
+        .navbar-logo {
+          display: flex;
+          align-items: center;
+          font-weight: 900;
+          font-size: 1.3rem;
+          letter-spacing: 1px;
+        }
+        .navbar-title {
+          color: #fff;
+        }
+        .navbar-links {
+          display: flex;
+          gap: 28px;
+        }
+        .navbar-links a {
+          color: #b0b0b0;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 1rem;
+          padding: 6px 12px;
+          border-radius: 6px;
+          transition: background 0.18s, color 0.18s;
+        }
+        .navbar-links a.active,
+        .navbar-links a:hover {
+          background: #232526;
+          color: #fff;
+        }
+        @media (max-width: 700px) {
+          .navbar { padding: 0 8px; }
+          .navbar-links { gap: 10px; }
+          .navbar-logo { font-size: 1rem; }
+        }
+      `}</style>
     </nav>
   );
-}
-
-const styles = {
-  navbar: {
-    background: 'linear-gradient(to right, #1976d2, #004ba0)',
-    color: 'white',
-    padding: '1rem 2rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    position: 'fixed',
-    top: 0,
-    width: '100%',
-    zIndex: 1000,
-    boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
-    flexWrap: 'wrap',
-  },
-  logo: {
-    fontSize: '1.6rem',
-    fontWeight: 'bold',
-    letterSpacing: '1px',
-  },
-  desktopMenu: {
-    display: 'flex',
-    gap: '1.5rem',
-  },
-  link: {
-    color: 'white',
-    textDecoration: 'none',
-    fontWeight: '500',
-    fontSize: '1rem',
-    transition: 'color 0.3s ease',
-  },
-  menuIcon: {
-    display: 'none',
-    cursor: 'pointer',
-  },
-  mobileMenu: {
-    position: 'absolute',
-    top: '100%',
-    left: 0,
-    width: '100%',
-    background: '#1565c0',
-    padding: '1rem 2rem',
-    textAlign: 'left',
-    animation: 'fadeIn 0.3s ease-in-out',
-  },
-};
-
-// Responsive styles using JS
-if (typeof window !== 'undefined') {
-  const mq = window.matchMedia('(max-width: 768px)');
-  const updateStyles = () => {
-    styles.desktopMenu.display = mq.matches ? 'none' : 'flex';
-    styles.menuIcon.display = mq.matches ? 'block' : 'none';
-  };
-  updateStyles();
-  mq.addListener(updateStyles);
 }
