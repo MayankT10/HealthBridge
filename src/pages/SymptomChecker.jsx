@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography, TextField, Button, Chip, Stack, Paper, LinearProgress } from '@mui/material';
+import axios from 'axios';
 
 const COMMON_SYMPTOMS = [
   "Fever", "Cough", "Headache", "Fatigue", "Sore throat", "Runny nose", "Shortness of breath", "Chest pain", "Nausea", "Vomiting", "Diarrhea", "Loss of taste", "Loss of smell", "Muscle pain", "Rash"
@@ -326,21 +327,28 @@ export default function SymptomChecker() {
       setResults([{ condition: "No symptoms entered.", probability: 0, actions: [], risk: "low" }]);
       return;
     }
+
     // Find all matching rules, sorted by probability
     const matches = RISK_RULES
-      .filter(rule => rule.symptoms.every(s => symptoms.includes(s)))
-      .sort((a, b) => b.probability - a.probability);
+      .filter(rule => rule.symptoms.some(s => symptoms.includes(s)))
+      .sort((a, b) => {
+        // Calculate match percentage
+        const aMatch = a.symptoms.filter(s => symptoms.includes(s)).length / symptoms.length;
+        const bMatch = b.symptoms.filter(s => symptoms.includes(s)).length / symptoms.length;
+        return (b.probability * bMatch) - (a.probability * aMatch);
+      });
 
     if (matches.length > 0) {
       setResults(matches);
     } else {
       // Fallback: suggest monitoring and general advice
       setResults([{
-        condition: "No major issues detected. Monitor your symptoms. If you feel unwell, consult a doctor.",
+        condition: "No specific conditions matched. Monitor your symptoms.",
         probability: 20,
         actions: [
-          "Monitor your symptoms.",
-          "Consult a doctor if you feel worse or are concerned."
+          "Monitor your symptoms",
+          "Rest and stay hydrated",
+          "Consult a doctor if symptoms worsen or persist"
         ],
         risk: "low"
       }]);

@@ -37,6 +37,7 @@ import MedicineTracker from './pages/MedicineTracker';
 import SymptomChecker from './pages/SymptomChecker';
 import ClinicsNearby from './pages/ClinicsNearby';
 import Settings from './pages/Settings';
+import LoadingPage from './components/LoadingPage';
 
 const NAV_LINKS = [
   { label: 'Dashboard', to: '/dashboard' },
@@ -303,21 +304,47 @@ function Navbar() {
   );
 }
 
-export default function App() {
+function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Show loading page for 2 seconds
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    // Handle page refresh
+    const handleBeforeUnload = () => {
+      setIsLoading(true);
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
   return (
-    <>
-      <Navbar />
-      <div style={{ paddingTop: 80, minHeight: '100vh' }}>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/medicine-tracker" element={<MedicineTracker />} />
-          <Route path="/symptom-checker" element={<SymptomChecker />} />
-          <Route path="/clinics-nearby" element={<ClinicsNearby />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
-      </div>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <HideOnScroll>
+        <Navbar />
+      </HideOnScroll>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/medicine-tracker" element={<MedicineTracker />} />
+        <Route path="/symptom-checker" element={<SymptomChecker />} />
+        <Route path="/clinics-nearby" element={<ClinicsNearby />} />
+        <Route path="/settings" element={<Settings />} />
+      </Routes>
       <ScrollToTopButton />
-    </>
+    </Box>
   );
 }
+
+export default App;
