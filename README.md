@@ -1,57 +1,83 @@
-# HealthBridge Web
+# 🚑 HealthBridge — Hackathon Project
 
-Accessible healthcare web app for medicine tracking, symptom checking, and smart referrals.
-
-## Key Features
-
-###Medicine Tracker with Smart Scanner
-- Add medicines by scanning barcodes or recognizing printed names via Barcode.
-- Log each dose simply by rescanning — no typing or reminder setup needed.
-
-### Family Link System
-- Invite family or caregivers to view real-time medicine intake logs.
-- See last taken time, missed doses, and overall adherence pattern.
-
-### AI-Powered Symptom Checker
-- Voice-based symptom intake using local languages.
-- Understands simple phrases and guides the user through a health check.
-
-###  Smart Clinic & Telehealth Referrals
-- Based on symptoms and GPS location, suggests:
-  - Nearby clinics/hospitals
-  - Public transport directions to reach care
+**HealthBridge** is a comprehensive and intuitive web application created during a hackathon to **bridge the gap between communities and essential healthcare services**. It focuses on **accessibility**, **prevention**, and **empowerment**—enabling users to track medicines, check symptoms, and locate nearby clinics in a user-friendly interface.
 
 ---
 
-## 🔧 Tech Stack
+## 🌟 Inspiration
 
-| Feature | Technology |
-|--------|-------------|
-| Web App | React Native (Expo) or Flutter |
-| OCR / Barcode | Google ML Kit / Expo Camera |
-| Voice I/O | Google Cloud Speech / Expo Speech |
-| Backend | Firebase Auth + Realtime DB |
-| Maps | Google Maps API / Mapbox |
-| NLP | OpenAI / Dialogflow / LangChain |
-| Multilingual Support | i18n.js or Flutter Intl |
+Access to basic healthcare tools remains a challenge in many areas. Our aim was to **create a lightweight, accessible health platform** that empowers individuals to take charge of their well-being—whether they’re in urban cities or rural communities.
 
 ---
 
-## Architecture Highlights
-- Modular: Medicine Tracker & Symptom Checker can work standalone.
-- Optimized for low-end devices and poor connectivity environments.
+## 🛠️ Built With
+
+- ⚛️ **React.js** — Fast and component-driven UI
+- 🎨 **Material-UI** — Clean and modern interface components
+- 📦 **React Router** — Seamless navigation
 
 ---
 
-##  Impact
-HealthBridge aims to bridge the digital healthcare gap by making vital tools intuitive and accessible — especially for the elderly, rural populations, and those with disabilities or low literacy levels.
+## 💡 Key Features
+
+| Feature              | Description |
+|----------------------|-------------|
+| 🧪 **Symptom Checker** | Early self-diagnosis support for common conditions |
+| 💊 **Medicine Tracker** | Helps users stay on track with their prescriptions |
+| 🏥 **Clinics Nearby** | Quickly find accessible health centers |
+| ⚙️ **Settings** | Customize preferences and profile |
+| 💚 **Donate Section** | Promotes support for global health initiatives (WHO) |
 
 ---
 
-##  Future Enhancements
-- SOS alert feature for critical symptoms
-- Offline support with delayed cloud sync
-- Prescription photo parsing using AI
-- Integrated vitals logging (e.g., BP, sugar)
+## 🚀 Live Demo
+
+
+[Live Demo Here](https://your-live-link.com)
 
 ---
+
+## 📸 Screenshots
+
+
+- Home Page with animated feature cards  
+- Medicine Tracker interface  
+- Symptom Checker form  
+- Clinic Locator map integration (if implemented)
+
+---
+
+## 🧠 What We Learned
+
+- Designing accessible UI/UX with MUI
+- React Router for dynamic navigation
+- Importance of seamless and responsive user interaction
+- Rapid development and collaboration during a limited-time sprint
+
+---
+
+## 🎯 Challenges Faced
+
+- Coordinating design and development under time constraints
+- Making the interface intuitive while providing enough depth
+- Ensuring responsiveness across screen sizes
+
+---
+
+## 👥 Team
+
+| Name | Role |
+|------|------|
+| Preet | Team Lead & Presentation |
+| Ram | Feature Integration |
+| Mayank | Developer |
+
+---
+
+## 📌 How to Run Locally
+
+```bash
+git clone https://github.com/yourusername/HealthBridge.git
+cd HealthBridge
+npm install
+npm start
