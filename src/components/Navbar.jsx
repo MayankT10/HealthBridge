@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const location = useLocation();
 
   const navItems = [
-    { name: 'Dashboard', href: '#' },
-    { name: 'Medicine Tracker', href: '#' },
-    { name: 'Symptom Checker', href: '#' },
-    { name: 'Clinics Nearby', href: '#' },
-    { name: 'Settings', href: '#' },
+    { name: 'Dashboard', href: '/dashboard' },
+    { name: 'Medicine Tracker', href: '/medicine-tracker' },
+    { name: 'Symptom Checker', href: '/symptom-checker' },
+    { name: 'Clinics Nearby', href: '/clinics-nearby' },
+    { name: 'Settings', href: '/settings' },
   ];
 
   return (
@@ -20,27 +20,34 @@ export default function Navbar() {
 
       <div style={styles.desktopMenu}>
         {navItems.map(item => (
-          <a key={item.name} href={item.href} style={styles.link}>
+          <Link
+            key={item.name}
+            to={item.href}
+            style={{
+              ...styles.link,
+              borderBottom: location.pathname === item.href ? '2px solid #fff' : 'none'
+            }}
+          >
             {item.name}
-          </a>
+          </Link>
         ))}
       </div>
 
-      <div style={styles.menuIcon} onClick={toggleMenu}>
+      <div style={styles.menuIcon} onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
       </div>
 
       {menuOpen && (
         <div style={styles.mobileMenu}>
           {navItems.map(item => (
-            <a
+            <Link
               key={item.name}
-              href={item.href}
+              to={item.href}
               style={{ ...styles.link, display: 'block', padding: '0.75rem 0' }}
               onClick={() => setMenuOpen(false)}
             >
               {item.name}
-            </a>
+            </Link>
           ))}
         </div>
       )}

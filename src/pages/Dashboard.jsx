@@ -1,6 +1,8 @@
-import React from 'react';
-import { Box, Typography, Grid, Card, CardContent, Button, Fade } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, Grid, Card, CardContent, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const features = [
   {
@@ -8,195 +10,215 @@ const features = [
     desc: "2 medicines scheduled for today.",
     link: "/medicine-tracker",
     btn: "View Medicine Tracker",
-    color: "#43e97b"
   },
   {
     title: "Recent Symptom Checks",
     desc: "Last check: No major symptoms detected.",
     link: "/symptom-checker",
     btn: "Check Symptoms",
-    color: "#009efd"
   },
   {
     title: "Nearby Clinics",
     desc: "3 clinics within 5km.",
     link: "/clinics-nearby",
     btn: "Find Clinics",
-    color: "#f7971e"
   },
   {
     title: "Profile & Settings",
     desc: "Update your preferences and profile.",
     link: "/settings",
     btn: "Go to Settings",
-    color: "#a770ef"
   }
 ];
 
+const quotes = [
+  "Take care of your body. It's the only place you have to live. – Jim Rohn",
+  "Health is not valued till sickness comes. – Thomas Fuller",
+  "A healthy outside starts from the inside. – Robert Urich",
+  "The groundwork for all happiness is good health. – Leigh Hunt",
+  "It is health that is real wealth and not pieces of gold and silver. – Mahatma Gandhi",
+  "Your body deserves the best.",
+  "Every step is progress. Keep moving for your health!",
+  "Small healthy habits every day make a big difference.",
+  "Self-care is how you take your power back.",
+  "Motivation is what gets you started. Habit is what keeps you going."
+];
+
+// Blue-themed background image (simple and clean)
+const bgImg = "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80";
+
 export default function Dashboard() {
+  const [quote, setQuote] = useState(quotes[0]);
+
+  useEffect(() => {
+    AOS.init({ duration: 700, once: true, offset: 60 });
+  }, []);
+
+  const handleNewQuote = () => {
+    let newQuote;
+    do {
+      newQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    } while (newQuote === quote);
+    setQuote(newQuote);
+  };
+
   return (
     <Box
       sx={{
         minHeight: '100vh',
-        position: 'relative',
-        overflow: 'hidden',
-        py: { xs: 4, md: 8 },
-        px: { xs: 1, md: 0 },
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: `linear-gradient(135deg, #e0f7fa 0%, #f8ffae 100%)`,
+        pt: { xs: 8, md: 12 },
+        pb: 6,
         '&:before': {
           content: '""',
-          position: 'absolute',
+          position: 'fixed',
           inset: 0,
-          zIndex: 0,
-          background: `url("data:image/svg+xml,%3Csvg width='1200' height='800' viewBox='0 0 1200 800' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cellipse cx='1000' cy='150' rx='320' ry='180' fill='%2343e97b' fill-opacity='0.13'/%3E%3Cellipse cx='300' cy='700' rx='360' ry='160' fill='%23009efd' fill-opacity='0.10'/%3E%3C/svg%3E") center/cover no-repeat`,
+          zIndex: -1,
+          background: `url(${bgImg}) center/cover no-repeat`,
+          filter: 'none',
         },
       }}
     >
-      {/* Hackathon badge */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 32,
-          left: { xs: 16, md: 64 },
-          bgcolor: '#43e97b',
-          color: 'white',
-          px: 2.5,
-          py: 0.5,
-          borderRadius: 2,
-          fontFamily: '"Fira Mono", monospace',
-          fontWeight: 700,
-          fontSize: { xs: 14, md: 16 },
-          letterSpacing: 2,
-          boxShadow: 3,
-          zIndex: 2,
-          textTransform: 'uppercase',
-          opacity: 0.95,
-        }}
-      >
-        Hackathon Mode
-      </Box>
+      <Box sx={{ maxWidth: 1000, mx: 'auto', px: 3 }}>
+        <Typography
+          variant="h3"
+          fontWeight={800}
+          color="primary"
+          mb={2}
+          textAlign="center"
+          data-aos="fade-down"
+        >
+          Welcome to Your Dashboard
+        </Typography>
 
-      <Box
-        sx={{
-          width: '100%',
-          maxWidth: 900,
-          mx: 'auto',
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-        <Fade in timeout={1200}>
-          <Box
+        <Typography
+          variant="subtitle1"
+          color="text.secondary"
+          textAlign="center"
+          mb={6}
+          data-aos="fade-down"
+          data-aos-delay="100"
+        >
+          Quick overview of your health activities and shortcuts.
+        </Typography>
+
+        {/* Motivational Quote Generator */}
+        <Box
+          sx={{
+            mb: 6,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          data-aos="zoom-in"
+        >
+          <Card
             sx={{
-              textAlign: 'center',
-              mb: 5,
-              backdropFilter: 'blur(8px)',
-              background: 'rgba(255,255,255,0.55)',
+              p: 3,
+              maxWidth: 600,
+              background: 'rgba(255, 255, 255, 0.9)',
               borderRadius: 4,
-              boxShadow: 4,
-              px: { xs: 2, md: 6 },
-              py: { xs: 3, md: 4 },
-              animation: 'popTitle 1.2s cubic-bezier(.68,-0.55,.27,1.55) 1',
-              '@keyframes popTitle': {
-                '0%': { transform: 'scale(0.8)', opacity: 0 },
-                '60%': { transform: 'scale(1.08)', opacity: 1 },
-                '100%': { transform: 'scale(1)', opacity: 1 },
-              },
+              boxShadow: 3,
+              textAlign: 'center',
             }}
           >
             <Typography
-              variant="h3"
-              fontWeight={900}
-              sx={{
-                color: 'primary.main',
-                mb: 1,
-                fontFamily: '"Montserrat", "Arial", sans-serif',
-                letterSpacing: 1,
-                textShadow: '0 2px 12px #43e97b33',
-              }}
+              variant="h6"
+              color="primary"
+              fontStyle="italic"
             >
-              Welcome to Your Dashboard
+              "{quote}"
             </Typography>
-            <Typography
-              variant="subtitle1"
-              sx={{
-                color: 'text.secondary',
-                fontFamily: '"Fira Mono", monospace',
-                fontWeight: 500,
-                letterSpacing: 0.5,
-                mb: 1,
-              }}
-            >
-              Quick overview of your health activities and shortcuts.
-            </Typography>
-          </Box>
-        </Fade>
+          </Card>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleNewQuote}
+            sx={{
+              mt: 2,
+              borderRadius: 3,
+              textTransform: 'none',
+              fontWeight: 600,
+              px: 4,
+              py: 1,
+            }}
+          >
+            New Motivation
+          </Button>
+        </Box>
 
+        {/* Modern Features Grid */}
         <Grid container spacing={4} justifyContent="center">
           {features.map((f, i) => (
-            <Grid item xs={12} sm={6} key={f.title}>
-              <Fade in timeout={1000 + i * 200}>
-                <Card
-                  sx={{
-                    borderRadius: 4,
-                    boxShadow: 6,
-                    background: `rgba(255,255,255,0.65)`,
-                    backdropFilter: 'blur(12px)',
-                    border: `2px solid ${f.color}33`,
-                    transition: 'transform 0.25s, box-shadow 0.25s',
-                    '&:hover': {
-                      transform: 'translateY(-8px) scale(1.03) rotate(-1deg)',
-                      boxShadow: 12,
-                      borderColor: f.color,
-                      background: `rgba(255,255,255,0.85)`,
-                    },
-                  }}
-                >
-                  <CardContent>
-                    <Typography
-                      variant="h6"
-                      fontWeight={700}
-                      sx={{
-                        color: f.color,
-                        mb: 1,
-                        letterSpacing: 0.5,
-                        fontFamily: '"Montserrat", Arial, sans-serif',
-                        textShadow: `0 2px 8px ${f.color}22`,
-                      }}
-                    >
-                      {f.title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" mb={2}>
-                      {f.desc}
-                    </Typography>
-                    <Button
-                      component={Link}
-                      to={f.link}
-                      variant="contained"
-                      sx={{
-                        background: `linear-gradient(90deg, ${f.color} 60%, #fff176 100%)`,
-                        color: '#222',
-                        fontWeight: 700,
-                        borderRadius: 2,
-                        boxShadow: '0 2px 8px #43e97b22',
-                        textTransform: 'none',
-                        '&:hover': {
-                          background: `linear-gradient(90deg, #fff176 0%, ${f.color} 100%)`,
-                          color: '#111',
-                        },
-                      }}
-                    >
-                      {f.btn}
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Fade>
+            <Grid item xs={12} sm={6} md={6} key={f.title}>
+              <Card
+                data-aos="fade-up"
+                data-aos-delay={i * 100}
+                sx={{
+                  borderRadius: 4,
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  border: '1px solid #e0e0e0',
+                  boxShadow: 3,
+                  transition: 'transform 0.2s ease-in-out',
+                  '&:hover': {
+                    transform: 'scale(1.03)',
+                  },
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h6" fontWeight={700} color="primary" mb={1}>
+                    {f.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" mb={2}>
+                    {f.desc}
+                  </Typography>
+                  <Button
+                    component={Link}
+                    to={f.link}
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      borderRadius: 2,
+                      textTransform: 'none',
+                      fontWeight: 600,
+                      px: 3,
+                      py: 1,
+                    }}
+                  >
+                    {f.btn}
+                  </Button>
+                </CardContent>
+              </Card>
             </Grid>
           ))}
         </Grid>
+
+        {/* Minimal Overview */}
+        <Box mt={8}>
+          <Typography variant="h5" fontWeight={700} mb={3} color="primary" data-aos="fade-right">
+            Today's Overview
+          </Typography>
+          <Grid container spacing={4}>
+            <Grid item xs={12} sm={4}>
+              <Card sx={{ p: 3, textAlign: 'center', borderRadius: 4 }} data-aos="fade-up">
+                <Typography variant="h4" fontWeight={800} color="primary">2</Typography>
+                <Typography variant="body2" color="text.secondary">Medicines Scheduled</Typography>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Card sx={{ p: 3, textAlign: 'center', borderRadius: 4 }} data-aos="fade-up" data-aos-delay="100">
+                <Typography variant="h4" fontWeight={800} color="primary">0</Typography>
+                <Typography variant="body2" color="text.secondary">Symptoms Detected</Typography>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Card sx={{ p: 3, textAlign: 'center', borderRadius: 4 }} data-aos="fade-up" data-aos-delay="200">
+                <Typography variant="h4" fontWeight={800} color="primary">3</Typography>
+                <Typography variant="body2" color="text.secondary">Clinics Nearby</Typography>
+              </Card>
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
     </Box>
   );
